@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Room</title>
+
+  <link rel="stylesheet" href="\styles\style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+</head>
+<body>
+  
+    <div class="page homepage" style="background-image: url(/media/friends.jpg);">
+        <div style="display: flex;
+                    flex-direction: column;
+                    align-items: center;">
+            <h1>Create a unique id for your room</h1>
+            <form id="loginForm" action="/check-room" method="post">
+                <label for="username">Ім'я:</label>
+                <input type="text" id="username" name="username" required><br>
+                <label for="roomCode">Код кімнати:</label>
+                <input type="text" id="roomCode" name="roomCode" required><br>
+                <button type="submit">Створити кімнату</button>
+            </form>
+        </div>
+
+    </div>
+    
+    <script>
+        let input = document.getElementById("roomid")
+        let button = document.getElementById("imdone")
+        button.onclick = () => {sendCode()}
+        function sendCode(){
+
+        }
+
+    </script>
+
+</body>
+</html>

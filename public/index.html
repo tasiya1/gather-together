@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Page 1</title>
+  <title>Gather Together</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <h1>This is Page 1</h1>
-  <button id="openFiltersButton" onclick="goToPage3()">Open filters page</button>
+  
+    <div class="page homepage" style="background-image: url(/media/friends.jpg);">
+        <div style="display: flex;
+                    flex-direction: column;
+                    align-items: center;">
+            <h1>Plan meetings with friends more easily with GatherTogether</h1>
+            <button id="createroom" class="home-button" onclick="window.location.href='/rooms/createroom'">Create a room</button>
+            <button id="joinroom" class="home-button" onclick="window.location.href='/rooms/joinroom'">Join a room</button>
+        </div>
 
-  <script>
-    function goToPage3() {
-      window.location.href = '/filters';
-    }
-  </script>
+    </div>
+    
 </body>
 </html>
