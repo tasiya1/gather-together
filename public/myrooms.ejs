@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My rooms</title>
+    <link rel="stylesheet" href="\styles\style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="\script\headerTag.js"></script>
+    </head>
+    
+<body style="background: linear-gradient(yellow, red);">
+    <gt-header></gt-header>
+    <div class="page-container">
+        <div class="narrow-page">
+            <h2>My rooms</h2>
+            <div class="rooms-container">
+                <% if (roomsCreated) { %>
+
+                    <% roomsCreated.forEach((r) => { %>
+                        <div class="room" data-code="<%= r.code %>">
+                            <a href="/rooms/<%= r.code %>/edit"><p><%= r.code %></p></a>
+                            <div class="delete-button" data-code="<%= r.code %>">
+                                <img src="https://www.svgrepo.com/show/380138/x-close-delete.svg" alt="" width="30" height="30">
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+
+            <h2>Rooms I've edited</h2>
+            <div class="rooms-container">
+                <% if (roomsJoined) { %>
+
+                    <% roomsJoined.forEach((r) => { %>
+                        <a class="room" href="/rooms/<%= r.roomCode %>/edit">
+                            <p><%= r.roomCode %></p>
+                        </a>
+                    <% }) %>
+                <% } %>
+            </div>
+            
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', async function(event) {
+                    event.preventDefault()
+                    const roomCode = this.dataset.code
+
+                    const confirmation = confirm('delete rooma?')
+                    if (!confirmation) return
+
+                    try {
+                        const response = await fetch(`/rooms/${roomCode}/delete`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+
+                        if (response.ok) {
+                            button.parentElement.remove()
+                        } else {
+                        }
+                    } catch (error) {
+                        console.error('errora:', error)
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gather Together</title>
+    <link rel="stylesheet" href="\styles\style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="\script\headerTag.js"></script>
+    </head>
+<body>
+    <gt-header></gt-header>
+    <div class="page">
+
+        <!--<h2>1. Select starting date. </h2>
+        <input type="date" id="startingDate">-->
+        
+        <h2 ="">Time selected by members. </h2>
+        <div id="timeCells">
+            <script>
+                let cellContainer = document.getElementById("timeCells")
+                cellContainer.innerHTML = ""
+                let row = document.createElement("div")
+                row.classList.add("timelabel-row")    
+                row.appendChild(document.createElement("p"))
+                for (let i = 0; i < 24; i++){
+                    let timeLabel = document.createElement("p")
+                    timeLabel.innerText = i.toString().padStart(2, "0") + ":00"
+                    row.appendChild(timeLabel)
+                } cellContainer.appendChild(row)
+            </script>
+
+            <% time_intersections.forEach((row) => { %>
+                <div class="row">
+                    <p></p>
+                    <% row.forEach((cell) => { %>
+                        <div class="time-cell" data-am="<%= cell%>"><%= cell%>/<%= size%></div>
+                    <% }) %>
+                </div>
+            <% }) %>
+        </div>
+        <script>
+            let rows = Array.from(document.querySelectorAll(".row"))
+            let roomaDate = <%- JSON.stringify(roomaDate) %>
+            let size = <%- size%>
+            let date = moment(roomaDate)
+            rows.forEach((row) => {
+                let paragraph = row.querySelector("p");
+                if (paragraph) {
+                    paragraph.innerText = (date.add(1, 'days').format('ddd') + " "  + (date.format("MMM Do"))).toString();
+                    let m = moment(paragraph.innerText);
+                    //let formattedDate = m.format('ddd MMM Do');
+                    //paragraph.innerText = formattedDate;
+                    row.dataset.date = m
+                }
+            })
+            let cs = Array.from(document.querySelectorAll('.time-cell'))
+            cs.forEach((c) => {
+                c.style.backgroundColor = "rgb(239, 108, 91, " + (parseInt(c.dataset.am)/size) +")"
+            })
+        </script>  
+    </div>
+
+</body>
+</html>

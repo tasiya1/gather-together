@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gather Together</title>
+    <link rel="stylesheet" href="\styles\style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    </head>
+<body>
+
+    <div class="page">
+
+        <!--<h2>1. Select starting date. </h2>
+        <input type="date" id="startingDate">-->
+        
+        <h2>Select available time for a week ahead. </h2>
+        <div id="timeCells">
+            <% if (rooma) { %>
+                <script>
+                    let cellContainer = document.getElementById("timeCells")
+                    cellContainer.innerHTML = ""
+                    let row = document.createElement("div")
+                    row.classList.add("timelabel-row")    
+                    row.appendChild(document.createElement("p"))
+                    for (let i = 0; i < 24; i++){
+                    let timeLabel = document.createElement("p")
+                    timeLabel.innerText = i.toString().padStart(2, "0") + ":00"
+                    row.appendChild(timeLabel)
+                    } cellContainer.appendChild(row)
+                </script>
+                <% rooma.cells.forEach((row) => { %>
+                    <div class="row">
+                        <p></p>
+                        <% row.forEach((cell) => { %>
+                            <% if (cell == 1) { %>
+                                <div class="time-cell selected"></div>
+                            <% } else { %>
+                                <div class="time-cell"></div>
+                            <% } %>
+                        <% }) %>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+        <script>
+            let rows = Array.from(document.querySelectorAll(".row"))
+            let roomaDate = <%- JSON.stringify(rooma.date) %>
+            let date = moment(roomaDate)
+            rows.forEach((row) => {
+                let paragraph = row.querySelector("p");
+                if (paragraph) {
+                    paragraph.innerText = (date.add(1, 'days').format('ddd') + " "  + (date.format("MMM Do"))).toString();
+                    let m = moment(paragraph.innerText);
+                    //let formattedDate = m.format('ddd MMM Do');
+                    //paragraph.innerText = formattedDate;
+                    row.dataset.date = m
+                }
+            })
+            let cs = Array.from(document.querySelectorAll('.time-cell'))
+            cs.forEach((c) => {
+                c.addEventListener("click", () => {
+                    if (c.classList.contains("selected")){
+                        c.classList.remove("selected")
+                    } else {
+                        c.classList.add("selected")
+                    }                            
+                })
+            })
+        </script>  
+
+        <button id="imdone" class="res-buttons">Save</button>
+        <button id="openresults" class="res-buttons" onclick="window.location.href='/rooms/<%=roomCode%>/compile'">Results</button>
+        <p style="color: gray;">Please save your edits before opening results</p>
+
+        <h1 id="dataok-message" style="color: rgb(0, 162, 0);" class="hidden-item">Saved!</h1>
+    </div>
+
+    <script src="\script\dateSelector.js"></script>
+
+</body>
+</html>

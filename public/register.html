@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+
+  <link rel="stylesheet" href="\styles\style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+</head>
+<body>
+  
+    <div class="page homepage" style="background-image: url(/media/friends.jpg);">
+        <div style="display: flex;
+                    flex-direction: column;
+                    align-items: center;">
+            <h1>Зареєструватись</h1>
+            <form id="loginForm" action="/register" method="post" class="send-form">
+                <div class="input-envelope">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required><br>
+                </div>
+                <div class="input-envelope">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required><br>
+                </div>
+                <div class="input-envelope">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required><br>
+                </div>
+                <button type="submit">Зарегатись</button>
+            </form>
+        </div>
+
+    </div>
+    
+    <script>
+
+
+
+    </script>
+
+</body>
+</html>
