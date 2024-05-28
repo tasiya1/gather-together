@@ -1,62 +1,18 @@
-
-// через хттп
-/*
-const http = require('http')
-const server = http.createServer((req, res) => {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-
-    res.write('<h1>TRSPO 2 LABA! not hehe</h1>');
-    res.end();
-});
-*/
-/*
-const port = 3000;
-server.listen(port, () => {
-    console.log('Node server is running on ${port}');
-})
-*/
-
-//через експрес
 const express = require('express');
 const app = express();
 const path = require('path');
-const User = require('./models/user')
+const User = require('../models/user')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
-const verifyToken = require('./middlewares/authMiddleware');
+const verifyToken = require('../middlewares/authMiddleware');
 const cookieParser = require('cookie-parser');
-
-var url = "mongodb://127.0.0.1:27017/gatherTogether";
-
-mongoose.connect(url, {
-}).then(() => {
-    console.log("connected lol")
-}).catch((error) => {
-    console.log(error)
-})
-
-app.use(express.static('public'));
-//app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-app.get('/', (req, res) => {
-    //res.send('<h1>Hello my crappy server!</h1>');
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-const usersRoute = require('./routes/users')
-const roomsRoute = require('./routes/rooms')
-
-app.use('/users', verifyToken, usersRoute)
-app.use('/rooms', verifyToken, roomsRoute)
+const router = express.Router()
 
 
-app.get('/login', (req, res) => { res.sendFile(path.join(__dirname, 'public', 'login.html')) })
-app.get('/register', (req, res) => { res.sendFile(path.join(__dirname, 'public', 'register.html')) })
+router.get('/login', (req, res) => { res.sendFile(path.join(__dirname, '..', 'public', 'login.html')) })
+router.get('/register', (req, res) => { res.sendFile(path.join(__dirname, '..', 'public', 'register.html')) })
 
-app.post('/register', async (req, res) => {
+router.post('/register', async (req, res) => {
     try {
         const username = req.body.username;
         const email = req.body.email;
@@ -73,7 +29,7 @@ app.post('/register', async (req, res) => {
         const newUser = new User({ username, email, password });
         await newUser.save();
         //res.sendFile(path.join(__dirname, 'public', 'login.html'))  
-        res.redirect('/login')
+        res.redirect('/auth/login')
         //res.json({ message: 'Чувака, себто - вас, успішно зареєстровано.' });
     } catch (error) {
         console.log(error);
@@ -81,7 +37,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
         const username = req.body.username;
         const password = req.body.password;
@@ -112,10 +68,4 @@ app.post('/login', async (req, res) => {
 });
 
 
-
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-    console.log(`Node server is running on ${port}`);
-});
-
+module.exports = router;

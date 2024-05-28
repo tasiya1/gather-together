@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path');
-const User = require('../models/user');
-const Room = require('../models/room');
+const Room = require('../models/room')
+const User = require('../../auth-service/models/user')
 const TimeCells = require('../models/timecells');
 const router = express.Router()
 const ejs = require('ejs')
@@ -59,7 +59,7 @@ router.post('/createroom', async (req, res) => {
     //user.roomsCreated.push(roomCode);
     await room.save();
 
-    return res.redirect('/rooms/my')
+    return res.redirect('/my')
     //return res.json({ message: "Кімнатку створено😊" });
 })
 
@@ -99,7 +99,7 @@ router.post('/joinroom', async (req, res) => {
     console.log(roomCode);
 
     if (await Room.findOne({code: roomCode})) {
-        return res.redirect('/rooms/' + req.body.roomCode + '/edit')
+        return res.redirect('/' + req.body.roomCode + '/edit')
     }
     
     return res.json({ message: "Не знайдено такої кімнатки😥" });
